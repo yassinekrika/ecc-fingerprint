@@ -26,7 +26,7 @@ def post():
     data = request.get_json()
 
     # Print the data
-    print(data)
+    # print(data)
 
     # Insert the data into the mysql table
     sql = "INSERT INTO user (id, username, fingerprint) VALUES (NULL, %s, %s)"
