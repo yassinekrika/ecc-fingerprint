@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 
-def fingerprint():
-    img = cv2.imread('/home/yassg4mer/Project/ecc_finger_print/client/public/fingerprint-reader.jpg', 0)
+def fingerprint(path):
+    img = cv2.imread(path, 0)
 
     img = cv2.equalizeHist(img)
 
@@ -13,5 +13,9 @@ def fingerprint():
     feature_vector = descriptions.flatten()
 
     vector = np.array(descriptions).flatten()
+
+    empty_str = ''
+    for i in vector:
+        empty_str = empty_str + str(int(i))
      
-    return vector
+    return int(empty_str)

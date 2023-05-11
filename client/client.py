@@ -6,35 +6,32 @@ import numpy as np
 from fignerprint import fingerprint
 from encrypt import *
 
-fingerprint_vector = fingerprint()
+def client(fingerprint_vector, username):
+    # fingerprint_vector = fingerprint()
 
-empty_str = ''
-for i in fingerprint_vector:
-    empty_str = empty_str + str(int(i))
+    keyPairClient = generateKeyPair()
 
-fingerprint_vector = int(empty_str)
+    ciphertext = encrypt(keyPairClient["publicKey"], fingerprint_vector)
 
-keyPairClient = generateKeyPair()
+    print(len(hex(ciphertext['C2'])))
 
-ciphertext = encrypt(keyPairClient["publicKey"], fingerprint_vector)
+    # The URL of the backend app
+    url = "http://localhost:5000/post"
 
-print(len(hex(ciphertext['C2'])))
+    # The data to send as a post request
+    data = {"username": username, "fingerprint": hex(ciphertext['C2'])}
 
-# The URL of the backend app
-url = "http://localhost:5000/post"
+    # Convert the data to JSON format
+    data_json = json.dumps(data)
 
-# The data to send as a post request
-data = {"username": "Alice", "fingerprint": hex(ciphertext['C2'])}
+    # The headers to specify the Content-Type
+    headers = {"Content-Type": "application/json"}
 
-# Convert the data to JSON format
-data_json = json.dumps(data)
+    # Send the post request and get the response
+    response = requests.post(url, data=data_json, headers=headers)
 
-# The headers to specify the Content-Type
-headers = {"Content-Type": "application/json"}
+    # Print the status code and the content of the response
+    print(response.status_code)
+    print(response.content)
 
-# Send the post request and get the response
-response = requests.post(url, data=data_json, headers=headers)
-
-# Print the status code and the content of the response
-print(response.status_code)
-print(response.content)
+    return response

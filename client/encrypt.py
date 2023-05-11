@@ -5,9 +5,8 @@ import secrets
 a = 0
 b = 7
 p = 2 ** 256 - 2 ** 32 - 977 # Prime number
-Gx = 5506626302227734366957871889516853432625060345377759417550018736038911672924053 # X 
-# Gy = 32670510020758816978083085130507043184471273380659243275938904335757337482424 # Y 
-Gy = int((Gx ** 3 + a * Gx + b) ** 0.5) # Y coordinate of the base point
+Gx = 5506626302227734366957871889516853432625060345377759417550018736038911672924053
+Gy = int((Gx ** 3 + a * Gx + b) ** 0.5) 
 
 class Point:
   def __init__(self, x, y):
@@ -42,7 +41,6 @@ class Point:
     else:
       return u.double()
     
-
 def modInverse(a, m):
   x, y, u, v = 0, 1, 1, 0
   while a != 0:
