@@ -1,6 +1,7 @@
 # Backend app
 from flask import Flask, request
 import mysql.connector
+from encrypt import *
 
 # Create a Flask app
 app = Flask(__name__)
@@ -33,6 +34,31 @@ def post():
     val = (data["username"], data["fingerprint"])
     cursor.execute(sql, val)
     conn.commit()
+
+    # Return a success message
+    return "Post request received and handled successfully!"
+
+@app.route("/verify", methods=["POST"])
+def virefy():
+    # Get the data from the request body
+    data = request.get_json()
+
+    # Print the data
+    # print(data)
+
+    # Insert the data into the mysql table
+    sql = "SELECT * FROM user WHERE username = %s"
+    val = (data["username"],)
+    cursor.execute(sql, val)
+    user = cursor.fetchall()
+    print(user)
+    if user:
+        keyPair = generateKeyPair()
+        decryptedMessageStored = decrypt(keyPair["privateKey"], user[0][2])
+        decryptedMessageRecieved = decrypt(keyPair["privateKey"], data[0][2])
+        
+        if decryptedMessageRecieved == decryptedMessageStored:
+            return "user validd"
 
     # Return a success message
     return "Post request received and handled successfully!"
