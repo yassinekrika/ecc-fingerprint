@@ -53,15 +53,17 @@ def virefy():
     user = cursor.fetchall()
     print(user)
     if user:
-        keyPair = generateKeyPair()
-        decryptedMessageStored = decrypt(keyPair["privateKey"], user[0][2])
-        decryptedMessageRecieved = decrypt(keyPair["privateKey"], data[0][2])
+        # keyPair = generateKeyPair()
+        # decryptedMessageStored = decrypt(keyPair["privateKey"], user[0][2])
+        # decryptedMessageRecieved = decrypt(keyPair["privateKey"], data[0][2])
         
-        if decryptedMessageRecieved == decryptedMessageStored:
-            return "user validd"
+        if data['fingerprint'] == user[0][2]:
+            return "user valid successfully!"
+        else: 
+            return "invalid user"
 
     # Return a success message
-    return "Post request received and handled successfully!"
+    
 
 # Run the app
 if __name__ == "__main__":

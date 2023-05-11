@@ -37,14 +37,14 @@ class MyTabView(customtkinter.CTkTabview):
         self.button = customtkinter.CTkButton(self.label, width=400, text="Add Fingerprint", command=self.finger_print)
         self.button.grid(row=1, column=1, padx=20, pady=10)
 
-        self.login = customtkinter.CTkButton(self.label, width=400, text="Log In")
+        self.login = customtkinter.CTkButton(self.label, width=400, text="Log In", command=self.postVerify)
         self.login.grid(row=2, column=1, padx=20, pady=10)
 
-        self.entry2 = customtkinter.CTkEntry(self.label2, placeholder_text="username", width=400) 
+        self.entry2 = customtkinter.CTkEntry(self.label2, placeholder_text="username sign", width=400) 
         self.entry2.grid(row=0, column=1, padx=20, pady=10)
 
-        self.button = customtkinter.CTkButton(self.label2, width=400, text="Add Fingerprint", command=self.finger_print)
-        self.button.grid(row=1, column=1, padx=20, pady=10)
+        self.button2 = customtkinter.CTkButton(self.label2, width=400, text="Add Fingerprint", command=self.finger_print)
+        self.button2.grid(row=1, column=1, padx=20, pady=10)
 
         self.sign = customtkinter.CTkButton(self.label2, width=400, text="Sign in", command=self.post)
         self.sign.grid(row=2, column=1, padx=20, pady=10)
@@ -65,9 +65,9 @@ class MyTabView(customtkinter.CTkTabview):
         # print(self.vector)
     
     def post(self):
-        username = self.entry2.get()
+        username = self.entry1.get()
         response = client(self.vector, username)
-        self.entry2.delete(0, "end")
+        self.entry1.delete(0, "end")
 
         if response.status_code == 200:
             if self.toplevel_window is None or not self.toplevel_window.winfo_exists():
@@ -76,9 +76,9 @@ class MyTabView(customtkinter.CTkTabview):
                 self.toplevel_window.focus()
 
     def postVerify(self):
-        username = self.entry1.get()
+        username = self.entry2.get()
         response = verify(self.vector, username)
-        self.entry1.delete(0, "end")
+        self.entry2.delete(0, "end")
 
         if response.status_code == 200:
             if self.toplevel_window is None or not self.toplevel_window.winfo_exists():
