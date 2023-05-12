@@ -34,7 +34,7 @@ def client(fingerprint_vector, username):
     print(response.status_code)
     print(response.content)
 
-    return response
+    return response.content, response.status_code
 
 
 
@@ -66,4 +66,4 @@ def verify(fingerprint_vector, username):
     print(response.status_code)
     print(response.content)
 
-    return response
+    return response.content, response.status_code

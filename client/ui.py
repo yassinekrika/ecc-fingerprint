@@ -9,8 +9,7 @@ class ToplevelWindow(customtkinter.CTkToplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.geometry("400x200")
-
-        self.label = customtkinter.CTkLabel(self, text="User Fingerprint Entered Successfully!!!")
+        self.label = customtkinter.CTkLabel(self, text="posted")
         self.label.pack(padx=20, pady=20)
 
 class MyTabView(customtkinter.CTkTabview):
@@ -65,22 +64,24 @@ class MyTabView(customtkinter.CTkTabview):
         # print(self.vector)
     
     def post(self):
-        username = self.entry1.get()
-        response = client(self.vector, username)
+        username = self.entry2.get()
+        content, status_code = client(self.vector, username)
+        print(str(content.decode('utf-8')))
         self.entry1.delete(0, "end")
 
-        if response.status_code == 200:
+        if status_code == 200:
             if self.toplevel_window is None or not self.toplevel_window.winfo_exists():
                 self.toplevel_window = ToplevelWindow(self)  # create window if its None or destroyed
             else:
                 self.toplevel_window.focus()
-
+        
     def postVerify(self):
-        username = self.entry2.get()
-        response = verify(self.vector, username)
+        username = self.entry1.get()
+        content, status_code = verify(self.vector, username)
+        print(str(content.decode('utf-8')))
         self.entry2.delete(0, "end")
 
-        if response.status_code == 200:
+        if status_code == 200:
             if self.toplevel_window is None or not self.toplevel_window.winfo_exists():
                 self.toplevel_window = ToplevelWindow(self)  # create window if its None or destroyed
             else:
